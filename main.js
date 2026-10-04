@@ -50,37 +50,91 @@
   document.getElementById('stripPrev').addEventListener('click', function () { stripBy(-1); });
   document.getElementById('stripNext').addEventListener('click', function () { stripBy(1); });
 
-  // Alloy grade selector
+  // Alloy grades. Source: Copper Table 8, "Properties of NF Alloys Materials".
+  // comp lists [element, content]; rwma is 0 where the grade has no RWMA class.
   var grades = [
-    { id: 'cuzr', name: 'CuZr', code: 'C15000', full: 'Copper zirconium', rwma: 'RWMA Class 1', cond: 90, hard: 72, use: 'Aluminium and galvanised or coated steel, where low contact resistance stops sticking.' },
-    { id: 'cucrzr', name: 'CuCrZr', code: 'C18150', full: 'Copper chromium zirconium', rwma: 'RWMA Class 2', cond: 80, hard: 80, use: 'The all-round grade for caps, shanks and holders on mild, coated and galvanised steel.' },
-    { id: 'cucobe', name: 'CuCoBe', code: 'C17500', full: 'Copper cobalt beryllium', rwma: 'RWMA Class 3', cond: 50, hard: 98, use: 'Stainless steel and high-force projection and seam welding where tips must not deform.' },
-    { id: 'cunisi', name: 'CuNiSi', code: 'C18000', full: 'Copper nickel silicon', rwma: 'RWMA Class 3', cond: 45, hard: 94, use: 'A beryllium-free alternative to Class 3 for shafts, bushes and heavy-duty holders.' },
-    { id: 'wcu', name: 'W-Cu', code: '75W / 25Cu', full: 'Tungsten copper', rwma: 'RWMA Class 11', cond: 40, hard: 100, use: 'Brazed faces for nut, stud and projection electrodes that see high pressure and wear.' }
+    { id: 'c', group: 'Copper', name: 'NFA C', uns: 'C11000', full: 'Copper', comp: [['Cu', '99.99%']], rwma: 0, hard: '25 B', cond: 100 },
+    { id: 'ofc', group: 'Copper', name: 'NFA OFC', uns: 'C10100', full: 'Oxygen free copper, electronic grade', comp: [['Cu', '99.99%'], ['Oxygen', 'less than 5 ppm']], rwma: 0, hard: '40 B / 76 HB', cond: 100 },
+    { id: 'sc', group: 'Copper', name: 'NFA SC', uns: 'C10700', full: 'Silver copper', comp: [['Ag', '0.08–0.12%'], ['P', '0.001–0.007%'], ['Cu', 'Rest']], rwma: 0, hard: '53 B / 90 HB', cond: 96 },
+    { id: 'zcu', group: 'Copper alloys', name: 'NFA ZCu', uns: 'C15000', full: 'Zirconium copper', comp: [['Zr', '0.10–0.20%'], ['Cu', 'Rest']], rwma: 1, hard: '70 B / 121 HB', cond: 90 },
+    { id: 'cc', group: 'Copper alloys', name: 'NFA CC', uns: 'C18200', full: 'Chromium copper', comp: [['Cr', '0.6–1.2%'], ['Fe', '0.10%'], ['Pb', '0.05%'], ['Si', '0.10%'], ['Cu', 'Rest']], rwma: 2, hard: '75 B / 135 HB', cond: 95 },
+    { id: 'czr', group: 'Copper alloys', name: 'NFA CZR', uns: 'C18150', full: 'Chromium zirconium copper', comp: [['Cr', '0.50–1.5%'], ['Zr', '0.05–0.25%'], ['Cu', 'Rest']], rwma: 2, hard: '77 B / 140 HB', cond: 75 },
+    { id: 'nb05', group: 'Copper alloys', name: 'NFA NB0.5', uns: 'C17510', full: '0.5% beryllium copper (nickel)', comp: [['Be', '0.4%'], ['Al', '0.20%'], ['Fe', '0.10%'], ['Ni', '2%'], ['Si', '0.2%'], ['Cu', 'Rest']], rwma: 3, hard: '100 B / 240 HB', cond: 48 },
+    { id: 'cb05', group: 'Copper alloys', name: 'NFA CB0.5', uns: 'C17500', full: '0.5% beryllium copper (cobalt)', comp: [['Be', '0.5%'], ['Al', '0.20%'], ['Co', '2.2%'], ['Fe', '0.10%'], ['Si', '0.2%'], ['Cu', 'Rest']], rwma: 3, hard: '100 B / 240 HB', cond: 48 },
+    { id: 'nscc', group: 'Copper alloys', name: 'NFA NSCC', uns: 'C18000', full: 'Nickel silicon chromium copper', comp: [['Ni', '1.8–3%'], ['Cr', '0.1–0.8%'], ['Fe', '0.15%'], ['Si', '0.4–0.8%'], ['Cu', 'Rest']], rwma: 3, hard: '93 B / 199 HB', cond: 48 },
+    { id: 'be2', group: 'Copper alloys', name: 'NFA BE 2', uns: 'C17200', full: '2% beryllium copper', comp: [['Be', '1.8–2%'], ['Al', '0.2%'], ['Co', '0.2%'], ['Si', '0.2%'], ['Cu', 'Rest']], rwma: 4, hard: '109 B / 331 HB', cond: 22 },
+    { id: 't55', group: 'Refractory metals', name: 'NFA T55 / C 45', uns: '', full: 'Tungsten copper', comp: [['Tungsten', '55%'], ['Copper', '45%']], rwma: 10, hard: '72–82 B', cond: 55 },
+    { id: 't70', group: 'Refractory metals', name: 'NFA T70 / C 30', uns: '', full: 'Tungsten copper', comp: [['Tungsten', '70%'], ['Copper', '30%']], rwma: 10, hard: '88–95 B', cond: 49 },
+    { id: 't75', group: 'Refractory metals', name: 'NFA T 75 / C 25', uns: '', full: 'Tungsten copper', comp: [['Tungsten', '75%'], ['Copper', '25%']], rwma: 11, hard: '96–95 B', cond: 45 },
+    { id: 't80', group: 'Refractory metals', name: 'NFA T 80 / C 20', uns: '', full: 'Tungsten copper', comp: [['Tungsten', '80%'], ['Copper', '20%']], rwma: 12, hard: '99–104 B', cond: 43 },
+    { id: 't100', group: 'Refractory metals', name: 'NFA T 100', uns: '', full: 'Tungsten', comp: [['Tungsten', '100%']], rwma: 13, hard: '39 C', cond: 31 },
+    { id: 'm100', group: 'Refractory metals', name: 'NFA M 100', uns: '', full: 'Molybdenum', comp: [['Molybdenum', '100%']], rwma: 14, hard: '89 B', cond: 30 },
+    { id: 'dsc', group: 'Dispersion strengthened', name: 'NFA DSC', uns: 'C15725', full: 'Dispersion strengthened copper', comp: [], rwma: 20, hard: '73–82 B', cond: 87 }
   ];
   var pills = document.getElementById('gradePills');
   var $ = function (id) { return document.getElementById(id); };
+  function rwmaLabel(g) { return g.rwma ? 'RWMA Class ' + g.rwma : 'No RWMA class'; }
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text != null) n.textContent = text;
+    return n;
+  }
   function showGrade(id) {
     var g = grades.filter(function (x) { return x.id === id; })[0];
     $('gName').textContent = g.name;
-    $('gFull').textContent = g.full + ', ' + g.code;
-    $('gRwma').textContent = g.rwma;
-    $('gCondL').textContent = '~' + g.cond + '% IACS';
-    $('gHardL').textContent = '~' + g.hard + ' HRB';
+    $('gFull').textContent = g.full;
+    $('gRwma').textContent = rwmaLabel(g);
+    $('gUns').textContent = g.uns || '—';
+    $('gHard').textContent = g.hard;
+    $('gCondL').textContent = g.cond + '%';
     $('gCond').style.width = g.cond + '%';
-    $('gHard').style.width = g.hard + '%';
-    $('gUse').textContent = g.use;
-    Array.prototype.forEach.call(pills.children, function (b) { b.setAttribute('aria-pressed', String(b.dataset.id === id)); });
+    var comp = $('gComp');
+    comp.textContent = '';
+    if (!g.comp.length) comp.appendChild(el('li', 'comp-only', g.full));
+    g.comp.forEach(function (c) {
+      var li = el('li');
+      li.appendChild(el('span', null, c[0]));
+      li.appendChild(el('strong', null, c[1]));
+      comp.appendChild(li);
+    });
+    pills.querySelectorAll('button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.id === id)); });
   }
+  var groupRow = {};
   grades.forEach(function (g) {
-    var b = document.createElement('button');
+    if (!groupRow[g.group]) {
+      var wrap = el('div', 'grade-group');
+      wrap.appendChild(el('span', 'grade-group-label', g.group));
+      groupRow[g.group] = el('div', 'grade-pills');
+      wrap.appendChild(groupRow[g.group]);
+      pills.appendChild(wrap);
+    }
+    var b = el('button', null, g.name);
     b.type = 'button';
-    b.textContent = g.name;
     b.dataset.id = g.id;
     b.addEventListener('click', function () { showGrade(g.id); });
-    pills.appendChild(b);
+    groupRow[g.group].appendChild(b);
   });
-  showGrade('cucrzr');
+  showGrade('czr');
+
+  // Full properties table, from the same data
+  var rows = $('gradeRows');
+  grades.forEach(function (g) {
+    var tr = el('tr');
+    var th = el('th', null, g.name);
+    th.scope = 'row';
+    tr.appendChild(th);
+    tr.appendChild(el('td', null, g.uns || '—'));
+    var compText = g.comp.map(function (c) { return c[0] + ' ' + c[1]; }).join(' · ');
+    var td = el('td', 'tc-comp');
+    td.appendChild(el('strong', null, g.full));
+    if (compText) td.appendChild(el('span', null, compText));
+    tr.appendChild(td);
+    tr.appendChild(el('td', null, g.rwma ? 'Class ' + g.rwma : '—'));
+    tr.appendChild(el('td', null, g.hard));
+    tr.appendChild(el('td', 'tc-num', g.cond + '%'));
+    rows.appendChild(tr);
+  });
 
   // Product links pre-fill the quote form
   var productSelect = $('productSelect');

@@ -128,9 +128,10 @@
 <section id="grades" class="grades">
   <div class="wrap grades-inner">
     <div class="grades-copy">
-      <h2 class="h-xl">Five grades. One metal.</h2>
-      <p class="lead-left">Conductivity keeps the weld cool and clean. Hardness keeps the tip from mushrooming. Choose a grade to see where it sits.</p>
-      <div class="grade-pills" id="gradePills" role="group" aria-label="Alloy grades"></div>
+      <p class="eyebrow">Properties of our materials</p>
+      <h2 class="h-xl">One metal. RWMA standard.</h2>
+      <p class="lead-left">Seventeen grades, from pure copper to tungsten and molybdenum, classified to the RWMA standard. Choose a grade to see its composition, hardness and conductivity.</p>
+      <div class="grade-groups" id="gradePills" role="group" aria-label="Alloy grades"></div>
     </div>
     <div class="grade-card" aria-live="polite">
       <div class="gc-glow"></div>
@@ -138,11 +139,23 @@
         <div><div class="gc-name" id="gName"></div><div class="gc-full" id="gFull"></div></div>
         <span class="chip" id="gRwma"></span>
       </div>
-      <div class="meter"><div class="meter-row"><span>Electrical conductivity</span><strong id="gCondL"></strong></div><div class="bar"><i id="gCond" class="fill-cu"></i></div></div>
-      <div class="meter"><div class="meter-row"><span>Hardness</span><strong id="gHardL"></strong></div><div class="bar"><i id="gHard" class="fill-steel"></i></div></div>
-      <div class="gc-use"><span>Best for</span><p id="gUse"></p></div>
-      <p class="fine">Typical values. Confirm against the mill test certificate for your order.</p>
+      <dl class="gc-specs">
+        <div><dt>UNS number</dt><dd id="gUns"></dd></div>
+        <div><dt>Hardness</dt><dd id="gHard"></dd></div>
+      </dl>
+      <div class="meter"><div class="meter-row"><span>Electrical conductivity (IACS)</span><strong id="gCondL"></strong></div><div class="bar"><i id="gCond" class="fill-cu"></i></div></div>
+      <div class="gc-use"><span>Composition</span><ul class="comp" id="gComp"></ul></div>
     </div>
+  </div>
+  <div class="wrap grade-table-wrap">
+    <h3 class="h-md">All grades at a glance</h3>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="Properties of all grades, scroll sideways on small screens">
+      <table class="grade-table">
+        <thead><tr><th scope="col">Grade</th><th scope="col">UNS number</th><th scope="col">Composition</th><th scope="col">RWMA</th><th scope="col">Hardness</th><th scope="col">Conductivity (IACS)</th></tr></thead>
+        <tbody id="gradeRows"></tbody>
+      </table>
+    </div>
+    <p class="fine">IACS: International Annealed Copper Standard. RWMA: Resistance Welder Manufacturing Alliance (USA). Hardness: B = Rockwell B, C = Rockwell C, HB = Brinell.</p>
   </div>
 </section>
 
@@ -155,6 +168,44 @@
     <p class="eyebrow">About PSL Alloys</p>
     <h2 class="h-lg">Built for the lines that never stop.</h2>
     <p class="lead-left">PSL Alloys makes resistance welding consumables for automotive, two-wheeler and white goods manufacturers and their suppliers. Standard parts ship from stock; custom parts are machined to your drawing and inspected before they leave.</p>
+    <ul class="stats">
+      <li><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.6 10.8c.7.5 1.1 1.3 1.1 2.2h5c0-.9.4-1.7 1.1-2.2A6 6 0 0 0 12 3z"/></svg><strong>Innovation</strong></li>
+      <li><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.4"/><path d="M15.5 14.3A4.8 4.8 0 0 1 21 19"/></svg><strong>40+ employees</strong><span>with passion</span></li>
+      <li><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 12l4-4 4 2 3-2 4 1 5 3"/><path d="M6 8l6 7a1.5 1.5 0 0 0 2.2 0l.3-.3a1.5 1.5 0 0 0 0-2.1L11 9"/><path d="M2 12l5 5M22 12l-5 5"/></svg><strong>150+ clients</strong></li>
+    </ul>
+  </div>
+</section>
+
+<section class="strengths" aria-labelledby="strengths-h">
+  <div class="wrap">
+    <h2 id="strengths-h" class="h-lg">Our strengths</h2>
+    <div class="strength-grid">
+      <article class="strength">
+        <img src="assets/about-quality.webp" width="206" height="92" loading="lazy" alt="Hand holding a quality seal surrounded by process icons">
+        <h3>Quality</h3>
+        <p>Quality is a particular area of interest. Every component we make is inspected at every stage, and commercial goods are sourced only from proven manufacturers with certified quality management systems.</p>
+      </article>
+      <article class="strength">
+        <img src="assets/about-experience.webp" width="210" height="112" loading="lazy" alt="Engineer at a laptop with the word Experience">
+        <h3>Experience</h3>
+        <p>Years of market presence have let us solve many problems together with our customers. The knowledge and skills we have gained let us deliver to the latest standards.</p>
+      </article>
+      <article class="strength">
+        <img src="assets/about-warehouse.webp" width="222" height="120" loading="lazy" alt="Warehouse aisle with stocked racks">
+        <h3>Warehouse</h3>
+        <p>A 1000 sq ft warehouse holds about 1000 items. We keep stock levels that support continuous deliveries for production and maintenance, and keep widening the range to meet our customers' needs.</p>
+      </article>
+      <article class="strength">
+        <img src="assets/about-delivery.webp" width="200" height="90" loading="lazy" alt="Express delivery truck illustration">
+        <h3>Fast delivery</h3>
+        <p>A wide range in stock, an efficient storage system, modern IT and logistics, and our own transport base keep delivery times short. Stocked items ship no later than the second day after the order.</p>
+      </article>
+      <article class="strength">
+        <img src="assets/about-technology.webp" width="245" height="110" loading="lazy" alt="Industry 1.0 to 5.0 progression graphic">
+        <h3>Modern technologies</h3>
+        <p>Modern IT runs our machinery, customer service, document exchange with partners, inventory monitoring and batch warehouse management, so we keep improving how efficiently we work.</p>
+      </article>
+    </div>
   </div>
 </section>
 
