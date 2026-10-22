@@ -5,7 +5,7 @@
   // Where quote requests go. Set this to your form backend (Formspree, Getform,
   // your own API...). While it is empty, the form opens the visitor's email app instead.
   var FORM_ENDPOINT = '';
-  var SALES_EMAIL = 'sales@pslalloys.com';
+  var SALES_EMAIL = 'pslalloys@gmail.com';
 
   var doc = document.documentElement;
   doc.classList.add('js');
