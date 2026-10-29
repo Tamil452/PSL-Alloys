@@ -5,7 +5,7 @@
   // Where quote requests go: the Google Apps Script web app URL that writes each
   // request to the enquiries Google Sheet (setup in google-sheets/README.md).
   // While it is empty, the form opens the visitor's email app instead.
-  var FORM_ENDPOINT = '';
+  var FORM_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzvpRMxmkpQ-ZZtmqWdwVbSwGK7IbxtqWqSQLMSkrIPdkpvlLMcw999ROQ1pHt-BEVn/exec';
   var MAX_FILE_BYTES = 10 * 1024 * 1024;
   var SALES_EMAIL = 'pslalloys@gmail.com';
 
