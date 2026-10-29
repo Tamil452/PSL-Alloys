@@ -201,10 +201,24 @@ h1, h2, h3 { font-family: var(--serif); font-weight: 400; color: var(--text-hi);
 .about-copy { display: flex; flex-direction: column; gap: 24px; }
 .about-copy .eyebrow { margin: 0; }
 
-.stats { list-style: none; margin: 8px 0 0; padding: 24px 0 0; border-top: 1px solid var(--line); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.stats { list-style: none; margin: 8px 0 0; padding: 24px 0 0; border-top: 1px solid var(--line); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 20px; }
 .stats li { display: flex; flex-direction: column; gap: 6px; color: var(--copper); }
 .stats strong { font-family: var(--serif); font-weight: 400; font-size: clamp(22px, 2vw, 28px); line-height: 1.15; color: var(--text-hi); }
 .stats span { font-size: 14px; color: var(--muted-2); }
+
+/* history */
+.history { padding-bottom: 120px; }
+.history-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 16px 48px; margin-bottom: 48px; }
+.timeline { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 24px; border-top: 1px solid var(--line); }
+.timeline li { position: relative; padding-top: 28px; }
+.timeline li::before { content: ""; position: absolute; top: -6px; left: 0; width: 11px; height: 11px; border-radius: 50%; background: var(--copper); box-shadow: 0 0 0 4px var(--bg), 0 0 18px var(--glow); }
+.timeline b { display: block; font-family: var(--serif); font-weight: 400; font-size: clamp(28px, 2.6vw, 36px); line-height: 1; color: var(--copper); margin-bottom: 10px; }
+.timeline h3 { font-size: 22px; line-height: 1.15; margin-bottom: 8px; }
+.timeline p { margin: 0; font-size: 15px; line-height: 1.6; color: var(--muted); }
+.industries { margin-top: 64px; padding: 32px; background: var(--panel); border: 1px solid var(--line); border-radius: 20px; }
+.industries h3 { font-size: 28px; margin-bottom: 20px; }
+.industries ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 12px; }
+.industries li { padding: 10px 18px; border: 1px solid var(--line); border-radius: 999px; font-size: 15px; color: var(--champagne); }
 
 /* strengths */
 .strengths { padding-bottom: 120px; }
@@ -253,6 +267,7 @@ address { font-style: normal; display: flex; flex-direction: column; gap: 8px; m
   .grades-inner, .about, .quote-inner { grid-template-columns: 1fr; gap: 48px; padding-block: 88px; }
   .grade-table-wrap { padding-bottom: 88px; }
   .strength-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .timeline { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 40px; }
   .foot-grid { grid-template-columns: 1fr 1fr; }
   .made { min-height: 680px; }
   .made-shade { background: linear-gradient(0deg, rgba(94,55,33,.92) 0%, rgba(94,55,33,.72) 55%, rgba(94,55,33,.15) 100%); }
@@ -285,6 +300,11 @@ address { font-style: normal; display: flex; flex-direction: column; gap: 8px; m
   .stats li { flex-direction: row; align-items: center; gap: 14px; }
   .strengths { padding-bottom: 80px; }
   .strength-grid { grid-template-columns: 1fr; }
+  .history { padding-bottom: 80px; }
+  .timeline { grid-template-columns: 1fr; border-top: 0; border-left: 1px solid var(--line); gap: 28px; padding-left: 24px; }
+  .timeline li { padding-top: 0; }
+  .timeline li::before { top: 8px; left: -30px; }
+  .industries { padding: 24px 20px; }
   .gc-specs { grid-template-columns: 1fr; }
   .grade-pills button { font-size: 14px; padding: 0 14px; min-height: 44px; }
   .foot-grid { grid-template-columns: 1fr; gap: 32px; padding-block: 56px 28px; }
