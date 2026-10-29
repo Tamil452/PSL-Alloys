@@ -245,6 +245,7 @@ address { font-style: normal; display: flex; flex-direction: column; gap: 8px; m
 .form [aria-invalid="true"] { border-color: #FFB4A0; }
 .form-msg { margin: 0; min-height: 0; font-size: 15px; color: var(--champagne); }
 .form-msg.err { color: #FFD3C7; }
+.form .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 .form button { min-height: 58px; font-size: 17px; }
 
 /* footer */

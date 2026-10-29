@@ -2,9 +2,11 @@
 (function () {
   'use strict';
 
-  // Where quote requests go. Set this to your form backend (Formspree, Getform,
-  // your own API...). While it is empty, the form opens the visitor's email app instead.
+  // Where quote requests go: the Google Apps Script web app URL that writes each
+  // request to the enquiries Google Sheet (setup in google-sheets/README.md).
+  // While it is empty, the form opens the visitor's email app instead.
   var FORM_ENDPOINT = '';
+  var MAX_FILE_BYTES = 10 * 1024 * 1024;
   var SALES_EMAIL = 'pslalloys@gmail.com';
 
   var doc = document.documentElement;
@@ -143,6 +145,15 @@
   });
 
   // Quote form
+  function readFile(file) {
+    if (!file) return Promise.resolve(null);
+    return new Promise(function (resolve, reject) {
+      var reader = new FileReader();
+      reader.onload = function () { resolve({ name: file.name, type: file.type, data: String(reader.result).split(',')[1] }); };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
   var form = $('quoteForm');
   var msg = $('formMsg');
   function say(text, isErr) { msg.textContent = text; msg.classList.toggle('err', !!isErr); }
@@ -158,10 +169,23 @@
     if (bad) { say(bad.name === 'email' ? 'Enter a valid email so we can reply.' : 'Enter your name.', true); bad.focus(); return; }
 
     if (FORM_ENDPOINT) {
+      var file = form.elements.drawing.files[0];
+      if (file && file.size > MAX_FILE_BYTES) { say('Drawing is over 10 MB. Email it to ' + SALES_EMAIL + ' instead.', true); return; }
       var btn = form.querySelector('button[type="submit"]');
       btn.disabled = true; say('Sending your request…');
-      fetch(FORM_ENDPOINT, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } })
-        .then(function (r) { if (!r.ok) throw new Error(r.status); form.reset(); say('Request sent. We reply within one working day.'); })
+      readFile(file)
+        .then(function (drawing) {
+          var f = form.elements;
+          var payload = {
+            name: f.name.value, company: f.company.value, email: f.email.value, phone: f.phone.value,
+            product: f.product.value, notes: f.notes.value, website: f.website.value,
+            page: location.href, drawing: drawing
+          };
+          // text/plain keeps this a simple request, so no CORS preflight (Apps Script cannot answer one)
+          return fetch(FORM_ENDPOINT, { method: 'POST', body: JSON.stringify(payload), headers: { 'Content-Type': 'text/plain;charset=utf-8' } });
+        })
+        .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+        .then(function (res) { if (!res.ok) throw new Error(res.error); form.reset(); say('Request sent. We reply within one working day.'); })
         .catch(function () { say('Could not send. Email us at ' + SALES_EMAIL + ' instead.', true); })
         .finally(function () { btn.disabled = false; });
       return;
